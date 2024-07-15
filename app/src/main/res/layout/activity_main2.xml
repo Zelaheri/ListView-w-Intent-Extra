@@ -31,8 +31,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Nome"
                 android:inputType="text"
-                android:text=" "
-                tools:ignore="LabelFor" />
+                android:text=" "/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -49,8 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Descrição"
                 android:inputType="textLongMessage"
-                android:text=" "
-                tools:ignore="LabelFor" />
+                android:text=" "/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,8 +65,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Valor (R$)"
                 android:inputType="numberDecimal"
-                android:text=" "
-                tools:ignore="LabelFor" />
+                android:text=" "/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

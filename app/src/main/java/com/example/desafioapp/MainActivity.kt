@@ -30,25 +30,58 @@ class MainActivity : AppCompatActivity() {
 
         submitBtn.setOnClickListener {
             if (nameInputID.text.toString().isNotEmpty() && descInputID.text.toString().isNotEmpty() && valueInputID.text.toString().isNotEmpty()){
-                listaProduto.add(Produto(
-                    nameInputID.text.toString().trim(),
-                    descInputID.text.toString().trim(),
-                    valueInputID.text.toString().toDoubleOrNull()
-                ))
+                if (listaProduto.size == 0){
+                    listaProduto.add(Produto(
+                        nameInputID.text.toString().trim(),
+                        descInputID.text.toString().trim(),
+                        valueInputID.text.toString().toDoubleOrNull()
+                    ))
+                    nameInputID.text.clear()
+                    descInputID.text.clear()
+                    valueInputID.text.clear()
 
-                nameInputID.text.clear()
-                descInputID.text.clear()
-                valueInputID.text.clear()
+                    binding.nameL.error = ""
+                    binding.descriptionL.error = ""
+                    binding.valorL.error = null
 
-                binding.nameL.error = ""
-                binding.descriptionL.error = ""
-                binding.valorL.error = null
+                    Snackbar.make(
+                        findViewById(R.id.main),
+                        "Produto cadastrado.",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                } else {
+                    listaProduto.forEach { produto: Produto ->
+                        if (produto.nome.equals(nameInputID.text.toString().trim())){
+                            Snackbar.make(
+                                findViewById(R.id.main),
+                                "Produto com mesmo nome já cadastrado.",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            listaProduto.add(Produto(
+                                nameInputID.text.toString().trim(),
+                                descInputID.text.toString().trim(),
+                                valueInputID.text.toString().toDoubleOrNull()
+                            ))
+                            nameInputID.text.clear()
+                            descInputID.text.clear()
+                            valueInputID.text.clear()
 
-                Snackbar.make(
-                    findViewById(R.id.main),
-                    "Produto cadastrado.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                            binding.nameL.error = ""
+                            binding.descriptionL.error = ""
+                            binding.valorL.error = null
+
+                            Snackbar.make(
+                                findViewById(R.id.main),
+                                "Produto cadastrado.",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+
+                nameInputID.requestFocus()
+
             } else {
                 // Nome TextLayout
                 if (nameInputID.text.toString().trim().isEmpty()) {
