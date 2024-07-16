@@ -2,6 +2,7 @@ package com.example.desafioapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.desafioapp.databinding.ActivityMainBinding
@@ -31,14 +32,11 @@ class MainActivity : AppCompatActivity() {
         submitBtn.setOnClickListener {
             if (nameInputID.text.toString().isNotEmpty() && descInputID.text.toString().isNotEmpty() && valueInputID.text.toString().isNotEmpty()){
                 if (listaProduto.size == 0){
-                    listaProduto.add(Produto(
-                        nameInputID.text.toString().trim(),
-                        descInputID.text.toString().trim(),
-                        valueInputID.text.toString().toDoubleOrNull()
-                    ))
-                    nameInputID.text.clear()
-                    descInputID.text.clear()
-                    valueInputID.text.clear()
+                    cadastroProduto(listaProduto,
+                        nameInputID,
+                        descInputID,
+                        valueInputID
+                    )
 
                     binding.nameL.error = ""
                     binding.descriptionL.error = ""
@@ -50,60 +48,54 @@ class MainActivity : AppCompatActivity() {
                         Snackbar.LENGTH_SHORT
                     ).show()
                 } else {
-                    listaProduto.forEach { produto: Produto ->
-                        if (produto.nome.equals(nameInputID.text.toString().trim())){
+                    for (produto in listaProduto) {
+                        if (produto.nome.contains(nameInputID.text.toString())) {
                             Snackbar.make(
                                 findViewById(R.id.main),
                                 "Produto com mesmo nome já cadastrado.",
                                 Snackbar.LENGTH_SHORT
                             ).show()
-                        } else {
-                            listaProduto.add(Produto(
-                                nameInputID.text.toString().trim(),
-                                descInputID.text.toString().trim(),
-                                valueInputID.text.toString().toDoubleOrNull()
-                            ))
-                            nameInputID.text.clear()
-                            descInputID.text.clear()
-                            valueInputID.text.clear()
-
-                            binding.nameL.error = ""
-                            binding.descriptionL.error = ""
-                            binding.valorL.error = null
-
+                            break
+                        } else if (!produto.nome.contains(nameInputID.text.toString())) {
+                            cadastroProduto(
+                                listaProduto,
+                                nameInputID,
+                                descInputID,
+                                valueInputID
+                            )
                             Snackbar.make(
                                 findViewById(R.id.main),
                                 "Produto cadastrado.",
                                 Snackbar.LENGTH_SHORT
                             ).show()
+                            break
+                        } else {
+                            continue
                         }
                     }
                 }
 
                 nameInputID.requestFocus()
-
             } else {
-                // Nome TextLayout
+                // Nome error
                 if (nameInputID.text.toString().trim().isEmpty()) {
                     binding.nameL.error = "Preencha o nome!"
                 } else {
                     binding.nameL.error = ""
                 }
-                // Descrição TextLayout
+                // Descrição error
                 if (descInputID.text.toString().trim().isEmpty()) {
                     binding.descriptionL.error = "Preencha a descrição!"
                 } else {
                     binding.descriptionL.error = ""
                 }
-                // Valor TextLayout
+                // Valor error
                 if (valueInputID.text.isNullOrEmpty()) {
                     binding.valorL.error = "Preencha o valor!"
                 } else {
                     binding.valorL.error = null
                 }
-
             }
-
         }
 
         listarBtn.setOnClickListener {
@@ -112,4 +104,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(i)
         }
     }
+}
+fun cadastroProduto(listaProduto:ArrayList<Produto>,
+                           nameInputId:EditText,
+                           descInputId:EditText,
+                           valueInputId:EditText){
+    listaProduto.add(Produto(
+        nameInputId.text.toString().trim(),
+        descInputId.text.toString().trim(),
+        valueInputId.text.toString().toDoubleOrNull()
+    ))
+    nameInputId.text.clear()
+    descInputId.text.clear()
+    valueInputId.text.clear()
 }

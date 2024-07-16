@@ -28,7 +28,7 @@ class MainActivity2 : AppCompatActivity() {
         )
         listView.adapter = listAdapter
 
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as Produto
             binding.nameL.visibility = View.VISIBLE
             binding.descriptionL.visibility = View.VISIBLE
