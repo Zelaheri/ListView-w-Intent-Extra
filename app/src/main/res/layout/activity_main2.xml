@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Nome"
                 android:inputType="text"
-                android:text=" "/>
+                android:text=" " />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Descrição"
                 android:inputType="textLongMessage"
-                android:text=" "/>
+                android:text=" " />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -65,19 +65,21 @@
                 android:layout_height="wrap_content"
                 android:hint="Valor (R$)"
                 android:inputType="numberDecimal"
-                android:text=" "/>
+                android:text=" " />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="Editar" />
 
         <Button
             android:id="@+id/excludeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="Excluir" />
 
         <ListView
