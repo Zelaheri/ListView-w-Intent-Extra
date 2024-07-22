@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import com.example.desafioapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
-import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -18,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val idInputID = binding.idProduto
         val nameInputID = binding.nameInput
         val descInputID = binding.descriptionInput
         val valueInputID = binding.valorInput
@@ -26,9 +25,9 @@ class MainActivity : AppCompatActivity() {
         val submitBtn = binding.submitBtn
         val listarBtn = binding.listBtn
 
-        val listaProduto = ArrayList<Produto>()
+        val database = Database(this)
+        var listaProduto = database.readProducts()
         val i = Intent(this, MainActivity2::class.java)
-
 
         submitBtn.setOnClickListener {
             if (nameInputID.text.toString().isNotEmpty() &&
@@ -36,12 +35,16 @@ class MainActivity : AppCompatActivity() {
                 valueInputID.text.toString().isNotEmpty()
             ) {
                 if (listaProduto.size == 0) {
-                    Cadastro(
-                        listaProduto,
-                        nameInputID,
-                        descInputID,
-                        valueInputID
+                    database.insertProduto(
+                        Produto(
+                            idInputID.text.toString().trim().toInt(),
+                            nameInputID.text.toString().trim(),
+                            descInputID.text.toString().trim(),
+                            valueInputID.text.toString().trim().toDouble()
+                        )
                     )
+                    listaProduto = database.readProducts()
+                    LimparCampos(nameInputID, descInputID, valueInputID)
 
                     Snackbar.make(
                         findViewById(R.id.main),
@@ -60,12 +63,16 @@ class MainActivity : AppCompatActivity() {
                                 break@loop
                             }
                         }
-                        Cadastro(
-                            listaProduto,
-                            nameInputID,
-                            descInputID,
-                            valueInputID
+                        database.insertProduto(
+                            Produto(
+                                idInputID.text.toString().trim().toInt(),
+                                nameInputID.text.toString().trim(),
+                                descInputID.text.toString().trim(),
+                                valueInputID.text.toString().trim().toDouble()
+                            )
                         )
+                        listaProduto = database.readProducts()
+                        LimparCampos(nameInputID, descInputID, valueInputID)
 
                         Snackbar.make(
                             findViewById(R.id.main),
@@ -102,28 +109,42 @@ class MainActivity : AppCompatActivity() {
 
         listarBtn.setOnClickListener {
             //i -> val i = Intent(this, MainActivity2::class.java)
-            i.putExtra("lista", listaProduto as Serializable)
+//            i.putExtra("lista", databaseList())
             startActivity(i)
         }
     }
 }
 
-fun Cadastro(
-    lista: ArrayList<Produto>,
+fun LimparCampos(
     nomeID: EditText,
     descID: EditText,
     valueID: EditText
 ) {
-    lista.add(
-        Produto(
-            nomeID.text.toString().trim(),
-            descID.text.toString().trim(),
-            valueID.text.toString().toDoubleOrNull()
-        )
-    )
     nomeID.text.clear()
     descID.text.clear()
     valueID.text.clear()
 
     nomeID.requestFocus()
 }
+
+//fun Cadastro(
+//    lista: ArrayList<Produto>,
+//    produtoID: TextView,
+//    nomeID: EditText,
+//    descID: EditText,
+//    valueID: EditText
+//) {
+//    lista.add(
+//        Produto(
+//            produtoID.text.toString().toInt(),
+//            nomeID.text.toString().trim(),
+//            descID.text.toString().trim(),
+//            valueID.text.toString().toDouble()
+//        )
+//    )
+//    nomeID.text.clear()
+//    descID.text.clear()
+//    valueID.text.clear()
+//
+//    nomeID.requestFocus()
+//}
