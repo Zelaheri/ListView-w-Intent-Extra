@@ -77,7 +77,15 @@ class Database(context: Context) : SQLiteOpenHelper(context, "Database.db", null
         return writableDatabase.update(
             "produto",
             values,
-            "id = ?",
+            "idProduto = ?",
+            arrayOf(produto.idProduct.toString())
+        )
+    }
+
+    fun deleteProduto(produto: Produto): Int {
+        return writableDatabase.delete(
+            "produto",
+            "idProduto = ?",
             arrayOf(produto.idProduct.toString())
         )
     }

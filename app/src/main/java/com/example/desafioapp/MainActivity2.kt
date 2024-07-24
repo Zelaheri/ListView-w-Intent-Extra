@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.desafioapp.databinding.ActivityMain2Binding
@@ -25,7 +26,7 @@ class MainActivity2 : AppCompatActivity() {
         val listView = binding.listProducts
 
         val database = Database(this)
-        val arrayListProduto = database.readProducts()
+        var arrayListProduto = database.readProducts()
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_1,
             arrayListProduto
@@ -38,6 +39,10 @@ class MainActivity2 : AppCompatActivity() {
             binding.nameL.visibility = View.VISIBLE
             binding.descriptionL.visibility = View.VISIBLE
             binding.valorL.visibility = View.VISIBLE
+            // enabling deactivated text inputs
+            nameInputID.isEnabled = true
+            descInputID.isEnabled = true
+            valueInputID.isEnabled = true
             // enabling to click buttons
             binding.editBtn.isEnabled = true
             binding.editBtn.isClickable = true
@@ -79,6 +84,7 @@ class MainActivity2 : AppCompatActivity() {
                         )
                     )
 
+                    arrayListProduto = database.readProducts()
                     listView.adapter = ArrayAdapter(
                         this,
                         android.R.layout.simple_list_item_1,
@@ -87,6 +93,7 @@ class MainActivity2 : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
 
                     clearFields(nameInputID, descInputID, valueInputID)
+                    disablingTextInputs(nameInputID, descInputID, valueInputID)
 
                     Snackbar.make(
                         findViewById(R.id.main),
@@ -125,11 +132,25 @@ class MainActivity2 : AppCompatActivity() {
         binding.excludeBtn.setOnClickListener {
             changeButtonsVisibility(binding.editBtn, binding.excludeBtn)
             if (position >= 0) {
-//                listaProduto.remove(listaProduto[position])
-//
-//                listAdapter.notifyDataSetChanged()
+                database.deleteProduto(
+                    Produto(
+                        idInputID.text.toString().toInt(),
+                        nameInputID.text.toString().trim(),
+                        descInputID.text.toString().trim(),
+                        valueInputID.text.toString().toDouble()
+                    )
+                )
+
+                arrayListProduto = database.readProducts()
+                listView.adapter = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    arrayListProduto
+                )
+                adapter.notifyDataSetChanged()
 
                 clearFields(nameInputID, descInputID, valueInputID)
+                disablingTextInputs(nameInputID, descInputID, valueInputID)
 
                 Snackbar.make(
                     findViewById(R.id.main),
@@ -156,6 +177,19 @@ fun changeButtonsVisibility(editBtn: Button, excludeBtn: Button){
         excludeBtn.isClickable = true
     }
 }
+
+fun disablingTextInputs(nameField: EditText, descField: EditText, valueField: EditText) {
+    if (nameField.isEnabled && descField.isEnabled && valueField.isEnabled) {
+        nameField.isEnabled = false
+        descField.isEnabled = false
+        valueField.isEnabled = false
+    } else {
+        nameField.isEnabled = true
+        descField.isEnabled = true
+        valueField.isEnabled = true
+    }
+}
+
 //fun View.showKeyboard() {
 //    this.requestFocus()
 //    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

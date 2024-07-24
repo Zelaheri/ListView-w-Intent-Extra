@@ -26,10 +26,10 @@ class MainActivity : AppCompatActivity() {
         val listBtn = binding.listBtn
 
         val database = Database(this)
-        var arrayListProduto = database.readProducts()
         val main2 = Intent(this, MainActivity2::class.java)
 
         submitBtn.setOnClickListener {
+            val arrayListProduto = database.readProducts()
             if (nameInputID.text.toString().isNotEmpty() &&
                 descInputID.text.toString().isNotEmpty() &&
                 valueInputID.text.toString().isNotEmpty()
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                             valueInputID.text.toString().trim().toDouble()
                         )
                     )
-                    arrayListProduto = database.readProducts()
+                    database.readProducts()
                     clearFields(nameInputID, descInputID, valueInputID)
 
                     Snackbar.make(
@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                     loop@ for (produto1 in arrayListProduto) {
                         for (produto2 in arrayListProduto) {
                             if (produto2.name == nameInputID.text.toString().trim()) {
+                                nameInputID.requestFocus()
                                 Snackbar.make(
                                     findViewById(R.id.main),
                                     "Produto com mesmo nome já cadastrado.",
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                                 valueInputID.text.toString().trim().toDouble()
                             )
                         )
-                        arrayListProduto = database.readProducts()
+                        database.readProducts()
                         clearFields(nameInputID, descInputID, valueInputID)
 
                         Snackbar.make(
