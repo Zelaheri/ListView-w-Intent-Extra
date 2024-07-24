@@ -19,22 +19,22 @@ class MainActivity : AppCompatActivity() {
         val idInputID = binding.idProduto
         val nameInputID = binding.nameInput
         val descInputID = binding.descriptionInput
-        val valueInputID = binding.valorInput
+        val valueInputID = binding.valueInput
 
 
         val submitBtn = binding.submitBtn
-        val listarBtn = binding.listBtn
+        val listBtn = binding.listBtn
 
         val database = Database(this)
-        var listaProduto = database.readProducts()
-        val i = Intent(this, MainActivity2::class.java)
+        var arrayListProduto = database.readProducts()
+        val main2 = Intent(this, MainActivity2::class.java)
 
         submitBtn.setOnClickListener {
             if (nameInputID.text.toString().isNotEmpty() &&
                 descInputID.text.toString().isNotEmpty() &&
                 valueInputID.text.toString().isNotEmpty()
             ) {
-                if (listaProduto.size == 0) {
+                if (arrayListProduto.size == 0) {
                     database.insertProduto(
                         Produto(
                             idInputID.text.toString().trim().toInt(),
@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
                             valueInputID.text.toString().trim().toDouble()
                         )
                     )
-                    listaProduto = database.readProducts()
-                    LimparCampos(nameInputID, descInputID, valueInputID)
+                    arrayListProduto = database.readProducts()
+                    clearFields(nameInputID, descInputID, valueInputID)
 
                     Snackbar.make(
                         findViewById(R.id.main),
@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity() {
                         Snackbar.LENGTH_SHORT
                     ).show()
                 } else {
-                    loop@ for (produto in listaProduto) {
-                        for (produto in listaProduto) {
-                            if (produto.nome == nameInputID.text.toString().trim()) {
+                    loop@ for (produto1 in arrayListProduto) {
+                        for (produto2 in arrayListProduto) {
+                            if (produto2.name == nameInputID.text.toString().trim()) {
                                 Snackbar.make(
                                     findViewById(R.id.main),
                                     "Produto com mesmo nome já cadastrado.",
@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity() {
                                 valueInputID.text.toString().trim().toDouble()
                             )
                         )
-                        listaProduto = database.readProducts()
-                        LimparCampos(nameInputID, descInputID, valueInputID)
+                        arrayListProduto = database.readProducts()
+                        clearFields(nameInputID, descInputID, valueInputID)
 
                         Snackbar.make(
                             findViewById(R.id.main),
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 binding.nameL.error = ""
                 binding.descriptionL.error = ""
-                binding.valorL.error = null
+                binding.valueL.error = null
             } else {
                 // Nome TextLayout
                 if (nameInputID.text.toString().trim().isEmpty()) {
@@ -100,22 +100,20 @@ class MainActivity : AppCompatActivity() {
                 }
                 // Valor TextLayout
                 if (valueInputID.text.isNullOrEmpty()) {
-                    binding.valorL.error = "Preencha o valor!"
+                    binding.valueL.error = "Preencha o valor!"
                 } else {
-                    binding.valorL.error = null
+                    binding.valueL.error = null
                 }
             }
         }
 
-        listarBtn.setOnClickListener {
-            //i -> val i = Intent(this, MainActivity2::class.java)
-//            i.putExtra("lista", databaseList())
-            startActivity(i)
+        listBtn.setOnClickListener {
+            startActivity(main2)
         }
     }
 }
 
-fun LimparCampos(
+fun clearFields(
     nomeID: EditText,
     descID: EditText,
     valueID: EditText

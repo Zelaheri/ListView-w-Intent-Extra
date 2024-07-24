@@ -36,19 +36,18 @@ class Database(context: Context) : SQLiteOpenHelper(context, "Database.db", null
         )
 
         cursor.use {
-            it.moveToFirst()
             while (it.moveToNext()) {
                 val idProduto = it.getColumnIndex("idProduto")
-                val nomeProduto = it.getColumnIndex("nome")
-                val descProduto = it.getColumnIndex("desc")
-                val valorProduto = it.getColumnIndex("valor")
+                val nameProduct = it.getColumnIndex("nome")
+                val descProduct = it.getColumnIndex("descrição")
+                val valueProduct = it.getColumnIndex("valor")
 
                 produto.add(
                     Produto(
                         it.getInt(idProduto),
-                        it.getString(nomeProduto),
-                        it.getString(descProduto),
-                        it.getDouble(valorProduto)
+                        it.getString(nameProduct),
+                        it.getString(descProduct),
+                        it.getDouble(valueProduct)
                     )
                 )
             }
@@ -58,24 +57,28 @@ class Database(context: Context) : SQLiteOpenHelper(context, "Database.db", null
 
     fun insertProduto(produto: Produto): Long {
         val values = ContentValues().apply {
-            put("nome", produto.nome)
-            put("desc", produto.desc)
+            put("nome", produto.name)
+            put("descrição", produto.desc)
             put("valor", produto.value)
         }
-        return writableDatabase.insert("produto", null, values)
+        return writableDatabase.insert(
+            "produto",
+            null,
+            values
+        )
     }
 
     fun updateProduto(produto: Produto): Int {
         val values = ContentValues().apply {
-            put("nome", produto.nome)
-            put("desc", produto.desc)
+            put("nome", produto.name)
+            put("descrição", produto.desc)
             put("valor", produto.value)
         }
         return writableDatabase.update(
             "produto",
             values,
             "id = ?",
-            arrayOf(produto.idProduto.toString())
+            arrayOf(produto.idProduct.toString())
         )
     }
 }

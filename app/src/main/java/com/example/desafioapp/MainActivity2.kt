@@ -1,6 +1,5 @@
 package com.example.desafioapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -26,14 +25,12 @@ class MainActivity2 : AppCompatActivity() {
         val listView = binding.listProducts
 
         val database = Database(this)
-        val listaProduto = database.readProducts()
+        val arrayListProduto = database.readProducts()
         val adapter = ArrayAdapter(this,
             android.R.layout.simple_list_item_1,
-            listaProduto
+            arrayListProduto
         )
-//        listUsers = database.readUsers()
-//        adapter = setAdapter(listUsers)
-//        binding.listaItens.adapter = adapter
+
         listView.adapter = adapter
 
         listView.setOnItemClickListener { parent, _, position, _ ->
@@ -49,9 +46,10 @@ class MainActivity2 : AppCompatActivity() {
 
             val selectedItem = parent.getItemAtPosition(position) as Produto
 
-//            nameInputID.setText(selectedItem.nome)
-//            descInputID.setText(selectedItem.desc)
-//            valueInputID.setText(selectedItem.value.toString())
+            idInputID.setText(selectedItem.idProduct.toString())
+            nameInputID.setText(selectedItem.name)
+            descInputID.setText(selectedItem.desc)
+            valueInputID.setText(selectedItem.value.toString())
 
             nameInputID.requestFocus()
 
@@ -72,13 +70,23 @@ class MainActivity2 : AppCompatActivity() {
             {
                 changeButtonsVisibility(binding.editBtn, binding.excludeBtn)
                 if (position >= 0) {
-//                    listaProduto[position].nome = nameInputID.text.toString().trim()
-//                    listaProduto[position].desc = descInputID.text.toString().trim()
-//                    listaProduto[position].value = valueInputID.text.toString().toDouble()
-//
-//                    listAdapter.notifyDataSetChanged()
+                    database.updateProduto(
+                        Produto(
+                            idInputID.text.toString().toInt(),
+                            nameInputID.text.toString().trim(),
+                            descInputID.text.toString().trim(),
+                            valueInputID.text.toString().toDouble()
+                        )
+                    )
 
-                    LimparCampos(nameInputID, descInputID, valueInputID)
+                    listView.adapter = ArrayAdapter(
+                        this,
+                        android.R.layout.simple_list_item_1,
+                        arrayListProduto
+                    )
+                    adapter.notifyDataSetChanged()
+
+                    clearFields(nameInputID, descInputID, valueInputID)
 
                     Snackbar.make(
                         findViewById(R.id.main),
@@ -121,7 +129,7 @@ class MainActivity2 : AppCompatActivity() {
 //
 //                listAdapter.notifyDataSetChanged()
 
-                LimparCampos(nameInputID, descInputID, valueInputID)
+                clearFields(nameInputID, descInputID, valueInputID)
 
                 Snackbar.make(
                     findViewById(R.id.main),
