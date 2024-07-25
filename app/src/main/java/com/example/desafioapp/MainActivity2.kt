@@ -104,6 +104,7 @@ class MainActivity2 : AppCompatActivity() {
                     position = -1
                 }
             } else {
+                // Nome TextLayout
                 if (nameInputID.text.toString().trim().isEmpty()) {
                     binding.nameL.error = "Preencha o nome!"
                 } else {
@@ -189,14 +190,3 @@ fun disablingTextInputs(nameField: EditText, descField: EditText, valueField: Ed
         valueField.isEnabled = true
     }
 }
-
-//fun View.showKeyboard() {
-//    this.requestFocus()
-//    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//    inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-//}
-//fun View.hideKeyboard() {
-//    this.requestFocus()
-//    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-//}

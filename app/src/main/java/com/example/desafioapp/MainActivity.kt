@@ -125,25 +125,3 @@ fun clearFields(
 
     nomeID.requestFocus()
 }
-
-//fun Cadastro(
-//    lista: ArrayList<Produto>,
-//    produtoID: TextView,
-//    nomeID: EditText,
-//    descID: EditText,
-//    valueID: EditText
-//) {
-//    lista.add(
-//        Produto(
-//            produtoID.text.toString().toInt(),
-//            nomeID.text.toString().trim(),
-//            descID.text.toString().trim(),
-//            valueID.text.toString().toDouble()
-//        )
-//    )
-//    nomeID.text.clear()
-//    descID.text.clear()
-//    valueID.text.clear()
-//
-//    nomeID.requestFocus()
-//}
