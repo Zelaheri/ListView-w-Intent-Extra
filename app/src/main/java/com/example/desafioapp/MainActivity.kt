@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 binding.nameL.error = ""
                 binding.descriptionL.error = ""
-                binding.valueL.error = null
+                binding.valueL.error = ""
             } else {
                 // Nome TextLayout
                 if (nameInputID.text.toString().trim().isEmpty()) {

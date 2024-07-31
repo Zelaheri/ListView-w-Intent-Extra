@@ -153,14 +153,23 @@ class MainActivity2 : AppCompatActivity() {
                 clearFields(nameInputID, descInputID, valueInputID)
                 disablingTextInputs(nameInputID, descInputID, valueInputID)
 
-                Snackbar.make(
-                    findViewById(R.id.main),
-                    "${position + 1}º item excluído.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                if (arrayListProduto.size > 0) {
+                    Snackbar.make(
+                        findViewById(R.id.main),
+                        "${position + 1}º item excluído.",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                } else {
+                    finish()
+                }
 
                 position = -1
             }
+        }
+        if (arrayListProduto.size == 0){
+            TODO("stopwatch delay" +
+                    "see: https://github.com/Baeldung/kotlin-tutorials/blob/master/core-kotlin-modules/core-kotlin-lang-3/src/main/kotlin/com/baeldung/callFunction/afterDelay/CallFunctionAfterDelay.kt" +
+                    "see: https://www.baeldung.com/kotlin/call-function-after-delay")
         }
     }
 }

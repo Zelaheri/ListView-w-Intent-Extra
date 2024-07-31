@@ -36,7 +36,11 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.appsearch)
+    annotationProcessor(libs.androidx.appsearch.compiler)
+    implementation(libs.androidx.appsearch.local.storage)
+    implementation(libs.androidx.appsearch.platform.storage)
+    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
